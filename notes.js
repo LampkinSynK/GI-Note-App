@@ -1,8 +1,10 @@
+//creating variables to utilze node node packages
 const fs = require('fs');
 const chalk = require('chalk');
 
+// Add note function created to append notes
 const addNote = (title, body) => {
-    const notes = loadNotes()
+    const notes = loadNotes() //Grabbing our list of notes into an array to be used in this scope
     const duplicateNote = notes.find((note) => note.title === title)
 
     if (!duplicateNote) {
@@ -10,7 +12,7 @@ const addNote = (title, body) => {
             title: title,
             body: body
         })
-        saveNotes(notes)
+        saveNotes(notes) //appending new note
         console.log(chalk.green.inverse('New note added!'))
     }
     else {
@@ -18,6 +20,7 @@ const addNote = (title, body) => {
     }
 }
 
+// Remove function used to remove when 'remove' keyword is called
 const removeNote = (title) => {
     const notes = loadNotes();
     notesToKeep = notes.filter(note => note.title !== title)
@@ -30,6 +33,7 @@ const removeNote = (title) => {
     }
 }
 
+// List function used to list when 'list' keyword is called
 const listNotes = () => {
     const notes = loadNotes();
     console.log(chalk.inverse('Your notes'));
@@ -39,6 +43,7 @@ const listNotes = () => {
     });
 }
 
+// Read function used to read when 'read' keyword with title param is called
 const readNote = (title) => {
     const notes = loadNotes()
     const note = notes.find((note) => note.title === title)
@@ -51,11 +56,13 @@ const readNote = (title) => {
     }
 }
 
+// Func to write notes to json file
 const saveNotes = notes => {
     const dataJSON = JSON.stringify(notes)
     fs.writeFileSync('notes.json', dataJSON)
 }
 
+// Returns array filled with all notes in JSON file
 const loadNotes = () => {
     try {
         const dataBuffer = fs.readFileSync('notes.json')
@@ -66,6 +73,7 @@ const loadNotes = () => {
     }
 }
 
+// Exports functions to be used in apps file
 module.exports = {
     addNote: addNote,
     removeNote: removeNote,
